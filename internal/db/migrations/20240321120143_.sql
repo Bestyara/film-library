@@ -3,9 +3,9 @@
 CREATE TABLE films(
     ID int PRIMARY KEY NOT NULL ,
     Name TEXT NOT NULL DEFAULT '',
-    Description TEXT NOT NULL,
-    Rating int NOT NULL,
-    ReleaseDate date NOT NULL
+    Description TEXT NOT NULL DEFAULT '',
+    Rating int NOT NULL DEFAULT 0,
+    ReleaseDate date NOT NULL DEFAULT '2022-12-25'
 );
 -- +goose StatementEnd
 
