@@ -11,13 +11,13 @@ type FilmRepo struct {
 	db *db.Database
 }
 
-func NewFilms(database *db.Database) *FilmRepo {
+func NewRepository(database *db.Database) *FilmRepo {
 	return &FilmRepo{db: database}
 }
 
 func (f *FilmRepo) AddFilm(ctx context.Context, film model.Film) (int64, error) {
 	var id int64
-	err := f.db.ExecQueryRow(ctx, `INSERT INTO films (name,description,rating,releasedate) VALUES ($1,$2,$3,$4) returning id`, film.Name, film.Description, film.Rating, film.ReleaseDate).Scan(&id)
+	err := f.db.ExecQueryRow(ctx, `INSERT INTO films (id,name,description,rating,releasedate) VALUES ($1,$2,$3,$4,$5) returning id`, film.ID, film.Name, film.Description, film.Rating, film.ReleaseDate).Scan(&id)
 	if err != nil {
 		return -1, errors.New("can not exec insert")
 	}
