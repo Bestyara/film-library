@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE films(
-    ID int PRIMARY KEY NOT NULL ,
+    ID SERIAL PRIMARY KEY NOT NULL ,
     Name TEXT NOT NULL DEFAULT '',
     Description TEXT NOT NULL DEFAULT '',
     Rating int NOT NULL DEFAULT 0,
