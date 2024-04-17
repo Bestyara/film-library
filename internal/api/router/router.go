@@ -48,16 +48,16 @@ func CreateRouter(impl handlers.Handler) *mux.Router {
 			log.Println("wrong method")
 		}
 	})
-	router.HandleFunc("/update/{/[0-9]+/}", func(writer http.ResponseWriter, request *http.Request) {
-		switch request.Method {
-		case http.MethodPatch:
-			impl.UpdateFilm(writer, request)
-		case http.MethodPut:
-			impl.UpdateFilm(writer, request)
-		default:
-			writer.WriteHeader(http.StatusMethodNotAllowed)
-			log.Println("wrong method")
-		}
-	})
+	//router.HandleFunc("/update/{/[0-9]+/}", func(writer http.ResponseWriter, request *http.Request) {
+	//	switch request.Method {
+	//	case http.MethodPatch:
+	//		impl.UpdateFilm(writer, request)
+	//	case http.MethodPut:
+	//		impl.UpdateFilm(writer, request)
+	//	default:
+	//		writer.WriteHeader(http.StatusMethodNotAllowed)
+	//		log.Println("wrong method")
+	//	}
+	//})
 	return router
 }

@@ -75,13 +75,13 @@ func (f *FilmRepo) SortFilms(ctx context.Context, sortparam string) ([]model.Fil
 	return convfilms, nil
 }
 
-func (f *FilmRepo) UpdateFilm(ctx context.Context, film model.Film) error {
-	_, err := f.db.Exec(ctx, `UPDATE films SET name = $2, description = $3, rating = $4, releasedate = $5 WHERE id = $1`, 50000, film.Name, film.Description, film.Rating, film.ReleaseDate) //TODO!!!!
-	if err != nil {
-		return errors.New("can not convert to this structure")
-	}
-	return nil
-}
+//func (f *FilmRepo) UpdateFilm(ctx context.Context, film model.Film) error {
+//	_, err := f.db.Exec(ctx, `UPDATE films SET name = $2, description = $3, rating = $4, releasedate = $5 WHERE id = $1`, 50000, film.Name, film.Description, film.Rating, film.ReleaseDate) //TODO!!!!
+//	if err != nil {
+//		return errors.New("can not convert to this structure")
+//	}
+//	return nil
+//}
 
 func parseDate(t time.Time) string {
 	return t.Format("2006-01-02")

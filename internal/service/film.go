@@ -12,7 +12,7 @@ type Repos interface {
 	DeleteFilm(ctx context.Context, queryid int64) (int64, error)
 	SelectFilm(ctx context.Context, id int64) (*model.Film, error)
 	SortFilms(ctx context.Context, sortparam string) ([]model.Film, error)
-	UpdateFilm(ctx context.Context, film model.Film) error
+	//UpdateFilm(ctx context.Context, film model.Film) error
 }
 
 type FilmServ struct {
@@ -51,15 +51,16 @@ func (f *FilmServ) SortFilms(ctx context.Context, sortparam string) ([]model.Fil
 	}
 	return f.repo.SortFilms(ctx, sortparam)
 }
-func (f *FilmServ) UpdateFilm(ctx context.Context, film model.Film) error {
-	if film.Rating < 0 && film.Rating > 10 {
-		log.Println("Wrong input of rating")
-	}
-	if len([]rune(film.Name)) <= 0 && len([]rune(film.Name)) > 150 {
-		log.Println("Wrong length of name")
-	}
-	if len([]rune(film.Description)) > 1000 {
-		log.Println("Wrong length of description")
-	}
-	return f.repo.UpdateFilm(ctx, film)
-}
+
+//func (f *FilmServ) UpdateFilm(ctx context.Context, film model.Film) error {
+//	if film.Rating < 0 && film.Rating > 10 {
+//		log.Println("Wrong input of rating")
+//	}
+//	if len([]rune(film.Name)) <= 0 && len([]rune(film.Name)) > 150 {
+//		log.Println("Wrong length of name")
+//	}
+//	if len([]rune(film.Description)) > 1000 {
+//		log.Println("Wrong length of description")
+//	}
+//	return f.repo.UpdateFilm(ctx, film)
+//}
