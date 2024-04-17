@@ -1,3 +1,4 @@
+//go:generate mockgen -source ./handler_model.go -destination=./handler_mocks_test.go -package=handlers
 package service
 
 import (
@@ -6,19 +7,19 @@ import (
 	"log"
 )
 
-type repos interface {
+type Repos interface {
 	AddFilm(ctx context.Context, film model.Film) (int64, error)
 	DeleteFilm(ctx context.Context, queryid int64) (int64, error)
-	SelectFilm(ctx context.Context, film model.Film) (*model.Film, error)
+	SelectFilm(ctx context.Context, id int64) (*model.Film, error)
 	SortFilms(ctx context.Context, sortparam string) ([]model.Film, error)
 	UpdateFilm(ctx context.Context, film model.Film) error
 }
 
 type FilmServ struct {
-	repo repos
+	repo Repos
 }
 
-func NewService(r repos) *FilmServ {
+func NewService(r Repos) *FilmServ {
 	return &FilmServ{repo: r}
 }
 
@@ -41,8 +42,8 @@ func (f *FilmServ) DeleteFilm(ctx context.Context, queryid int64) (int64, error)
 	}
 	return f.repo.DeleteFilm(ctx, queryid)
 }
-func (f *FilmServ) SelectFilm(ctx context.Context, film model.Film) (*model.Film, error) {
-	return f.repo.SelectFilm(ctx, film)
+func (f *FilmServ) SelectFilm(ctx context.Context, id int64) (*model.Film, error) {
+	return f.repo.SelectFilm(ctx, id)
 }
 func (f *FilmServ) SortFilms(ctx context.Context, sortparam string) ([]model.Film, error) {
 	if sortparam == "default" {

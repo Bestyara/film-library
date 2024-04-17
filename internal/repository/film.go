@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"film-library/internal/db"
 	"film-library/internal/model"
@@ -9,10 +10,10 @@ import (
 )
 
 type FilmRepo struct {
-	db *db.Database
+	db db.DBops
 }
 
-func NewRepository(database *db.Database) *FilmRepo {
+func NewRepository(database db.DBops) *FilmRepo {
 	return &FilmRepo{db: database}
 }
 
@@ -33,12 +34,14 @@ func (f *FilmRepo) DeleteFilm(ctx context.Context, queryid int64) (int64, error)
 	return queryid, nil
 }
 
-func (f *FilmRepo) SelectFilm(ctx context.Context, film model.Film) (*model.Film, error) {
-	r := f.db.ExecQueryRow(ctx, `SELECT name,description,rating,releasedate FROM films WHERE id = $1`, 50000) //TODO !!!!
-	convfilm := model.Film{}
-	err := r.Scan(&convfilm)
+func (f *FilmRepo) SelectFilm(ctx context.Context, queryid int64) (*model.Film, error) {
+	var convfilm model.Film
+	err := f.db.Get(ctx, &convfilm, `SELECT id,name,description,rating,releasedate FROM films WHERE id = $1`, queryid)
 	if err != nil {
-		return &model.Film{}, errors.New("can not convert to this structure")
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrObjectNotFound
+		}
+		return nil, err
 	}
 	return &convfilm, nil
 }
@@ -66,6 +69,8 @@ func (f *FilmRepo) SortFilms(ctx context.Context, sortparam string) ([]model.Fil
 		if err != nil {
 			return nil, errors.New("can not convert to this structure")
 		}
+	default:
+		return nil, errors.New("wrong param")
 	}
 	return convfilms, nil
 }

@@ -1,13 +1,13 @@
 package router
 
 import (
-	"film-library/internal/api"
+	"film-library/internal/api/handlers"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
 
-func CreateRouter(impl api.Api) *mux.Router {
+func CreateRouter(impl handlers.Handler) *mux.Router {
 	router := mux.NewRouter()
 	router.HandleFunc("/add", func(writer http.ResponseWriter, request *http.Request) {
 		//impl.AddFilm(writer, request)

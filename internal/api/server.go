@@ -1,13 +1,14 @@
 package api
 
 import (
+	"film-library/internal/api/handlers"
 	"film-library/internal/api/middleware"
 	"film-library/internal/api/router"
 	"film-library/internal/config"
 	"net/http"
 )
 
-func Run(c config.Config, m chan error, impl Api) {
+func Run(c config.Config, m chan error, impl handlers.Handler) {
 	router := router.CreateRouter(impl)
 	http.Handle("/", middleware.AuthMiddleware(router))
 	go func() {
